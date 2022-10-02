@@ -16,18 +16,18 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
     //1.تعريف الصفات
-    private TextInputEditText EtEmail,EtPaasword,EtConfirm;
-    private Button btnSave;
+    private TextInputEditText etemail,etpaasword,etconfirm;
+    private Button btnSave,btncancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         //2.
-        EtEmail=findViewById(R.id.EtEmail);
-        EtPaasword=findViewById(R.id.EtPassword);
-        EtConfirm=findViewById(R.id.Etemail);
-        btnSave=findViewById(R.id.btnSave);
+        etemail=findViewById(R.id.etemail);
+        etpaasword=findViewById(R.id.etpassword);
+        etconfirm=findViewById(R.id.etconfirm);
+        btnSave=findViewById(R.id.btnsave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,19 +37,19 @@ public class SignUp extends AppCompatActivity {
     }
     //تستعمل للدخول والتسجيل و الخروج ,sign in up and out
     private void checkAndSave() {
-        String email=EtEmail.getText().toString();
-        String pass=EtPaasword.getText().toString();
-        String passConf=EtConfirm.getText().toString();
+        String email=etemail.getText().toString();
+        String pass=etpaasword.getText().toString();
+        String passConf=etconfirm.getText().toString();
 
         boolean isok=true;
         if (email.length()*pass.length()*passConf.length()==0)
         {
-            EtEmail.setError("one of the files is empty");
+            etemail.setError("one of the files is empty");
             isok=false;
         }
         if (pass.equals(passConf)==false)
         {
-            EtConfirm.setError("is not equal to password");
+            etconfirm.setError("is not equal to password");
             isok=false;
         }
         if (isok)
@@ -69,7 +69,7 @@ public class SignUp extends AppCompatActivity {
                         finish();
                     }
                     else
-                        Toast.makeText(SignUp.this, "cereation faild"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUp.this, "cereation failed"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
