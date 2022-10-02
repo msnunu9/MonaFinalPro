@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
     //1.تعريف الصفات
-    private TextInputEditText EtEmail,EtPaas,EtConfirm;
+    private TextInputEditText EtEmail,EtPaasword,EtConfirm;
     private Button btnSave;
 
     @Override
@@ -25,8 +25,8 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         //2.
         EtEmail=findViewById(R.id.EtEmail);
-        EtPaas=findViewById(R.id.EtPass);
-        EtConfirm=findViewById(R.id.EtConfirm);
+        EtPaasword=findViewById(R.id.EtPassword);
+        EtConfirm=findViewById(R.id.Etemail);
         btnSave=findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +38,7 @@ public class SignUp extends AppCompatActivity {
     //تستعمل للدخول والتسجيل و الخروج ,sign in up and out
     private void checkAndSave() {
         String email=EtEmail.getText().toString();
-        String pass=EtPaas.getText().toString();
+        String pass=EtPaasword.getText().toString();
         String passConf=EtConfirm.getText().toString();
 
         boolean isok=true;

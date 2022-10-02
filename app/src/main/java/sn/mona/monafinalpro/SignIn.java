@@ -19,7 +19,7 @@ public class SignIn extends AppCompatActivity {
 
     private Button btnup;
     private Button btnin;
-    TextInputEditText EtPass,EtEmail;
+    TextInputEditText EtPass,Etemail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +27,7 @@ public class SignIn extends AppCompatActivity {
         //يبني واجهة المستعمل بحيث يبني كل الكائنات الموجودة بملف التنسيق
         btnup=findViewById(R.id.btnup);
         btnin=findViewById(R.id.btnin);
-        EtEmail=findViewById(R.id.EtEmail);
+        Etemail=findViewById(R.id.Etemail);
         EtPass=findViewById(R.id.EtPass);
         btnup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,12 +46,12 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void checkAndSave() {
-        String email=EtEmail.getText().toString();
+        String email=Etemail.getText().toString();
         String pass=EtPass.getText().toString();
         boolean isOk=true;
         if (email.length()==0)
         {
-            EtEmail.setError("enter your email");
+            Etemail.setError("enter your email");
             isOk=false;
         }
         if (pass.length()==0)
@@ -61,7 +61,7 @@ public class SignIn extends AppCompatActivity {
         }
         if (email.indexOf('@')<=0)
         {
-            EtEmail.setError("wrong email");
+            Etemail.setError("wrong email");
             isOk=false;
         }
         if (pass.length()<7)
