@@ -28,7 +28,14 @@ public class SignUp extends AppCompatActivity {
         etpaasword=findViewById(R.id.etpassword);
         etconfirm=findViewById(R.id.etconfirm);
         btnSave=findViewById(R.id.btnsave);
+        btncancel=findViewById(R.id.btncancel);
         btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkAndSave();
+            }
+        });
+        btncancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkAndSave();
