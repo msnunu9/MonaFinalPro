@@ -17,8 +17,8 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i = new Intent(SplashScreen.this, SignIn.class);
-                startActivity(i);
-                // finish();
+                startActivity(i);  //to start the i which is going from splash activity to sign in
+                finish();  //to close the current activity
             }
         };
         h.postDelayed(r,3000);

@@ -70,6 +70,9 @@ public class SignUp extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     //فحص اذا بناء حساب ناجح
                     if (task.isSuccessful())
+                    /* if the email and password are valid then the email ant the pss are saved in the firebase
+                    and a text will pop up in the bottom of the screen says"password and email are saved"
+                     */
                     {
                         Toast.makeText(SignUp.this, "cereation succrssfuly", Toast.LENGTH_SHORT).show();
                         //اغلاق الشاشة الحالية

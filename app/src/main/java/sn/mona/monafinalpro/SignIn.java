@@ -69,7 +69,7 @@ public class SignIn extends AppCompatActivity {
             EtPass.setError("password at least 7 character");
             isOk=false;
         }
-        //******
+        //if all the if conditions are true then the inputs will be sent to the firebase
         if (isOk)
         {
             FirebaseAuth auth = FirebaseAuth.getInstance();
