@@ -44,7 +44,7 @@ public class SignIn extends AppCompatActivity {
             }
         });
     }
-
+//دالة checkAndSave تستعمل للدخول والتسجيل والخروج
     private void checkAndSave() {
         String email=Etemail.getText().toString();
         String pass=EtPass.getText().toString();
@@ -86,7 +86,7 @@ public class SignIn extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(SignIn.this, "Not successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignIn.this, "Not successful"+ task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

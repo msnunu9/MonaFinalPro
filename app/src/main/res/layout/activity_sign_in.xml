@@ -23,28 +23,26 @@
         android:layout_margin="40dp"
         android:layout_marginBottom="30dp"
 
-        android:hint="Email">
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Etemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="Email" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
-        android:hint="Password">
+        android:layout_margin="40dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/EtPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="Password" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
