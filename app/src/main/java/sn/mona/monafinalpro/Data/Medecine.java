@@ -1,5 +1,8 @@
 package sn.mona.monafinalpro.Data;
 
+/**
+ *
+ */
 public class Medecine {
     String key,owner;
     String sickness;

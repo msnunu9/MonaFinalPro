@@ -15,7 +15,7 @@
             android:id="@+id/EtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -26,14 +26,8 @@
             android:id="@+id/EtSub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="use" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageButton
-        android:id="@+id/imbtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_baseline_supervised_user_circle_24" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,13 +39,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="cancel" />
 
         <Button
             android:id="@+id/ntnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="save" />
     </LinearLayout>
 </LinearLayout>
