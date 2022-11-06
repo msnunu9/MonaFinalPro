@@ -1,10 +1,17 @@
 package sn.mona.monafinalpro.Data;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import sn.mona.monafinalpro.R;
 
@@ -15,5 +22,19 @@ public class MedecineAdapter extends ArrayAdapter<Medecine>
         super(context, R.layout.medecine_item);
     }
     //عرض معطيات في واجهة
-    public View getView
+
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View vitem= LayoutInflater.from(getContext()).inflate(R.layout.medecine_item,parent,false);
+        TextView tvTitle=vitem.findViewById(R.id.tvTitle);
+        TextView tvSubject=vitem.findViewById(R.id.tvTitle);
+        RatingBar rb=vitem.findViewById(R.id.rb);
+        ImageButton btninfo=vitem.findViewById(R.id.btninfo);
+        CheckBox chb=vitem.findViewById(R.id.chb);
+        final Medecine medecine=getItem(position);
+        tvTitle.setText();
+
+    }
 }
