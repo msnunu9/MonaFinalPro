@@ -21,6 +21,7 @@ public class Medecine {
         this.whentouse = whentouse;
     }
 
+
     public String getKey() {
         return key;
     }
@@ -89,4 +90,7 @@ public class Medecine {
                 ", whentouse=" + whentouse +
                 '}';
     }
+
+
+
 }

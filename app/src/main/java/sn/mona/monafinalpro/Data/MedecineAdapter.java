@@ -15,8 +15,7 @@ import androidx.annotation.Nullable;
 
 import sn.mona.monafinalpro.R;
 
-public class MedecineAdapter extends ArrayAdapter<Medecine>
-{
+public class MedecineAdapter extends ArrayAdapter<Medecine> {
     //تخزين المهام بمبنى معطيات مصفوفة
     public MedecineAdapter(@NonNull Context context) {
         super(context, R.layout.medecine_item);
@@ -27,14 +26,10 @@ public class MedecineAdapter extends ArrayAdapter<Medecine>
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View vitem= LayoutInflater.from(getContext()).inflate(R.layout.medecine_item,parent,false);
-        TextView tvTitle=vitem.findViewById(R.id.tvTitle);
-        TextView tvSubject=vitem.findViewById(R.id.tvTitle);
-        RatingBar rb=vitem.findViewById(R.id.rb);
-        ImageButton btninfo=vitem.findViewById(R.id.btninfo);
-        CheckBox chb=vitem.findViewById(R.id.chb);
-        final Medecine medecine=getItem(position);
-        tvTitle.setText();
+        View vitem = LayoutInflater.from(getContext()).inflate(R.layout.medecine_item, parent, false);
+        TextView tvSickness=vitem.findViewById(R.id.tvSickness);
+
 
     }
+
 }
