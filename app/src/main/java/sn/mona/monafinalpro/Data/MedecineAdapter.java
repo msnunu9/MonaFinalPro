@@ -28,6 +28,14 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View vitem = LayoutInflater.from(getContext()).inflate(R.layout.medecine_item, parent, false);
         TextView tvSickness=vitem.findViewById(R.id.tvSickness);
+        TextView tvHowtouse=vitem.findViewById(R.id.tvHowtouse);
+        TextView tvContents=vitem.findViewById(R.id.tvContents);
+        RatingBar rb=vitem.findViewById(R.id.rb);
+        ImageButton btninfo=vitem.findViewById(R.id.btninfo);
+        CheckBox chb=vitem.findViewById(R.id.chb);
+        ImageButton imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
+
+
 
 
     }

@@ -8,7 +8,6 @@ public class Medecine {
     String sickness;
     String howtouse;
     String contents;
-    String image;
     int whentouse;
 
     public Medecine(String key, String owner, String sickness, String howtouse, String contents, String image, int whentouse) {
@@ -17,7 +16,6 @@ public class Medecine {
         this.sickness = sickness;
         this.howtouse = howtouse;
         this.contents = contents;
-        this.image = image;
         this.whentouse = whentouse;
     }
 
@@ -62,13 +60,6 @@ public class Medecine {
         this.contents = contents;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public int getWhentouse() {
         return whentouse;
@@ -86,7 +77,6 @@ public class Medecine {
                 ", sickness='" + sickness + '\'' +
                 ", howtouse='" + howtouse + '\'' +
                 ", contents='" + contents + '\'' +
-                ", image='" + image + '\'' +
                 ", whentouse=" + whentouse +
                 '}';
     }
