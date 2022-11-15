@@ -39,11 +39,8 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         tvHowtouse.setText(medecine.getHowtouse());
         tvContents.setText(medecine.getContents());
         rb.setRating(medecine.getWhentouse());
-
-
-
-
-
+        chb.setChecked(false);
+        return vitem;
     }
 
 }

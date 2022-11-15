@@ -46,7 +46,8 @@ public class AddMedecine extends AppCompatActivity {
         String title = EtTitle.getText().toString();
         String subj = EtSub.getText().toString();
         //بناء الكائن واعطائه قيم للصفات
-        Medecine m=new Medecine()
+        Medecine m=new Medecine();
+        m.set
     }
 
 }
