@@ -34,6 +34,12 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         ImageButton btninfo=vitem.findViewById(R.id.btninfo);
         CheckBox chb=vitem.findViewById(R.id.chb);
         ImageButton imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
+        final Medecine medecine=getItem(position);
+        tvSickness.setText(medecine.getSickness());
+        tvHowtouse.setText(medecine.getHowtouse());
+        tvContents.setText(medecine.getContents());
+        rb.setRating(medecine.getWhentouse());
+
 
 
 
