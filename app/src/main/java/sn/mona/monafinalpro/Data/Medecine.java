@@ -10,7 +10,7 @@ public class Medecine {
     String contents;
     int whentouse;
 
-    public Medecine(String key, String owner, String sickness, String howtouse, String contents, String image, int whentouse) {
+    public Medecine() {
         this.key = key;
         this.owner = owner;
         this.sickness = sickness;
