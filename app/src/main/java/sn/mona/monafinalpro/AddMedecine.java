@@ -55,7 +55,6 @@ public class AddMedecine extends AppCompatActivity {
         Medecine m = new Medecine();
         m.setSickness(m.getSickness());
         m.setHowtouse(m.getHowtouse());
-        m.setContents(Contents);
         //استخراج الرقم المميز للمستعمل UID
         //مستخدم دخل مسبقا
         String owner = FirebaseAuth.getInstance().getCurrentUser().getUid();

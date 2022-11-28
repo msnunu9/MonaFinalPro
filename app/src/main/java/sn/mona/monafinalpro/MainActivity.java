@@ -11,23 +11,49 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import sn.mona.monafinalpro.Data.Medecine;
+import sn.mona.monafinalpro.Data.MedecineAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton imgbtn;
-
+private ListView dyn;
+private Button ntnCancel;
+//تعريف الوسيط
+MedecineAdapter medcineAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //3.2 بناء الوسيط
+        medcineAdapter =new MedecineAdapter(getApplicationContext());
+        //تجهيز مؤشر لقائمة العرض
+      dyn  =findViewById(R.id.dyn);
+        //3.3 ربط قائمة العرض بالوسيط
+        dyn.setAdapter(medcineAdapter);
+        ///تشغيل مراقب(ليسينير) لاي نغيير على قاعدة البيانات
+        //        ويقوم بتنظيف المعطيات الموجه(حذفها)وتنزيل المعلومات الجديدة
+        readMedcineFromFireBase();
+
+
+
+
 
 
         imgbtn=findViewById(R.id.imgbtn);
+        ntnCancel=findViewById(R.id.ntnCancel);
 
 
         //الانتقال من main activity الى addTask عند الضغط على زر الزائد
@@ -38,6 +64,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+    }
+
+    private void readMedcineFromFireBase() {
+        //مؤشر لجذر قاعدة البيانات التابعة للمشروع
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        //listener لمراقبة اي تغيير يحدث تحت الجذر المحدد
+        // اي تغيير بقيمة صفة او حذف او اضافة كائن يتم اعلام ال listener
+        // عندما يتم تنزيل كل المعطيات الموجودة تحت الجذر
+        reference.child("mahmat").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //remove all tasks from adapter
+                medcineAdapter.clear();
+                for (DataSnapshot d:snapshot.getChildren())//يمر على جميع قيم مبنى المعطيات  d
+                {
+                    Medecine m=d.getValue(Medecine.class);//استخراج الكائن المحفوظ
+                    medcineAdapter.add(m);//اضافة الكائن للوسيط
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        } );
+
     }
 
     /**
@@ -94,6 +147,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+    //الانتقال من main activity الى addTask عند الضغط على زر الزائد
+        nt.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i=new Intent(MainActivity.this,AddMedecine.class);
+            startActivity(i);
+        }
+    });
 
     }
 
