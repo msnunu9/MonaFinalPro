@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,19 +27,20 @@ import sn.mona.monafinalpro.Data.MedecineAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton imgbtn;
-private ListView dyn;
-private Button ntnCancel;
-//تعريف الوسيط
-MedecineAdapter medcineAdapter;
+    private ListView dyn;
+    private Button ntnCancel;
+    //تعريف الوسيط
+    MedecineAdapter medcineAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //3.2 بناء الوسيط
-        medcineAdapter =new MedecineAdapter(getApplicationContext());
+        medcineAdapter = new MedecineAdapter(getApplicationContext());
         //تجهيز مؤشر لقائمة العرض
-      dyn  =findViewById(R.id.dyn);
+        dyn = findViewById(R.id.dyn);
         //3.3 ربط قائمة العرض بالوسيط
         dyn.setAdapter(medcineAdapter);
         ///تشغيل مراقب(ليسينير) لاي نغيير على قاعدة البيانات
@@ -48,19 +48,15 @@ MedecineAdapter medcineAdapter;
         readMedcineFromFireBase();
 
 
-
-
-
-
-        imgbtn=findViewById(R.id.imgbtn);
-        ntnCancel=findViewById(R.id.ntnCancel);
+        imgbtn = findViewById(R.id.imgbtn);
+        ntnCancel = findViewById(R.id.btnSaveAdd);
 
 
         //الانتقال من main activity الى addTask عند الضغط على زر الزائد
         imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(MainActivity.this,AddMedecine.class);
+                Intent i = new Intent(MainActivity.this, AddMedecine.class);
                 startActivity(i);
             }
         });
@@ -69,18 +65,19 @@ MedecineAdapter medcineAdapter;
 
     private void readMedcineFromFireBase() {
         //مؤشر لجذر قاعدة البيانات التابعة للمشروع
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        //listener لمراقبة اي تغيير يحدث تحت الجذر المحدد
-        // اي تغيير بقيمة صفة او حذف او اضافة كائن يتم اعلام ال listener
+
+        //استخراج الرقم المميز للمهمة
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("medcine");//listener لمراقبة اي تغيير يحدث تحت الجذر المحدد
+// اي تغيير بقيمة صفة او حذف او اضافة كائن يتم اعلام ال listener
         // عندما يتم تنزيل كل المعطيات الموجودة تحت الجذر
-        reference.child("mahmat").addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //remove all tasks from adapter
                 medcineAdapter.clear();
-                for (DataSnapshot d:snapshot.getChildren())//يمر على جميع قيم مبنى المعطيات  d
+                for (DataSnapshot d : snapshot.getChildren())//يمر على جميع قيم مبنى المعطيات  d
                 {
-                    Medecine m=d.getValue(Medecine.class);//استخراج الكائن المحفوظ
+                    Medecine m = d.getValue(Medecine.class);//استخراج الكائن المحفوظ
                     medcineAdapter.add(m);//اضافة الكائن للوسيط
                 }
             }
@@ -89,37 +86,37 @@ MedecineAdapter medcineAdapter;
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        } );
+        });
 
     }
 
     /**
-     *لبناء واضافة قائمة
+     * لبناء واضافة قائمة
+     *
      * @param menu
      * @return
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
     /**
      * لمعالجة حدث اختيار مركب من مركبات المنيو
+     *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()==R.id.itmSetings)
-        {
-            Intent i=new Intent(MainActivity.this, Settings.class);
+        if (item.getItemId() == R.id.itmSetings) {
+            Intent i = new Intent(MainActivity.this, Settings.class);
             startActivity(i);
         }
-        if (item.getItemId()==R.id.itmSignOut)
-        {
+        if (item.getItemId() == R.id.itmSignOut) {
             //1تجهيز البناء للديالوج
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Signing out");
             builder.setMessage("are you sure");
             builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
@@ -141,20 +138,13 @@ MedecineAdapter medcineAdapter;
                 }
             });
             //بناء الديالوج
-            AlertDialog dialog=builder.create();
+            AlertDialog dialog = builder.create();
             dialog.show();
 
         }
         return true;
-    }
-    //الانتقال من main activity الى addTask عند الضغط على زر الزائد
-        nt.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent i=new Intent(MainActivity.this,AddMedecine.class);
-            startActivity(i);
-        }
-    });
 
     }
+}
+
 

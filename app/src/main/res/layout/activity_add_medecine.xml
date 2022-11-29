@@ -68,14 +68,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/ntnSave"
+            android:id="@+id/btnCancelAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="cancel" />
 
         <Button
-            android:id="@+id/ntnCancel"
+            android:id="@+id/btnSaveAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

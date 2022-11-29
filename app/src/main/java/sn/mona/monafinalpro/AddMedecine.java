@@ -3,6 +3,7 @@ package sn.mona.monafinalpro;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,7 @@ import sn.mona.monafinalpro.Data.Medecine;
 public class AddMedecine extends AppCompatActivity {
     private TextInputEditText EtSub, EtTitle;
     private ImageButton imbtn;
-    private Button ntnSave, ntnCancel;
+    private Button btnSave, btnCancel;
     private String imp;
 
     /**
@@ -33,17 +34,24 @@ public class AddMedecine extends AppCompatActivity {
         EtSub = findViewById(R.id.EtSub);
         EtTitle = findViewById(R.id.EtTitle);
         imbtn = findViewById(R.id.imbtn);
-        ntnSave = findViewById(R.id.ntnSave);
-        ntnCancel = findViewById(R.id.ntnCancel);
+        btnCancel = findViewById(R.id.btnCancelAdd);
+        btnSave = findViewById(R.id.btnSaveAdd);
 
-        ntnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkAndSave();
             }
         });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               finish();
+            }
+        });
 
     }
+
 
     /**
      *
@@ -60,7 +68,7 @@ public class AddMedecine extends AppCompatActivity {
         String owner = FirebaseAuth.getInstance().getCurrentUser().getUid();
         m.setOwner(owner);
         //استخراج الرقم المميز للمهمة
-        String key = FirebaseDatabase.getInstance().getReference().child("mahmat").child(owner).push().getKey();
+        String key = FirebaseDatabase.getInstance().getReference().child("medcine").push().getKey();
         m.setKey(key);
         FirebaseDatabase.getInstance().getReference().child(key).setValue(m).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
