@@ -4,21 +4,13 @@ package sn.mona.monafinalpro.Data;
  *
  */
 public class Medecine {
-    String key,owner;
-    String sickness;
-    String howtouse;
-    String contents;
-    int whentouse;
-
-    public Medecine() {
-        this.key = key;
-        this.owner = owner;
-        this.sickness = sickness;
-        this.howtouse = howtouse;
-        this.contents = contents;
-        this.whentouse = whentouse;
-    }
-
+    private String key, owner;
+    private String name;
+    private String sickness;
+    private String use;
+    private  String symptoms;
+    private  String Ingredients;
+    private String contents;
 
     public String getKey() {
         return key;
@@ -36,6 +28,14 @@ public class Medecine {
         this.owner = owner;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getSickness() {
         return sickness;
     }
@@ -44,12 +44,28 @@ public class Medecine {
         this.sickness = sickness;
     }
 
-    public String getHowtouse() {
-        return howtouse;
+    public String getUse() {
+        return use;
     }
 
-    public void setHowtouse(String howtouse) {
-        this.howtouse = howtouse;
+    public void setUse(String use) {
+        this.use = use;
+    }
+
+    public String getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(String symptoms) {
+        this.symptoms = symptoms;
+    }
+
+    public String getIngredients() {
+        return Ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        Ingredients = ingredients;
     }
 
     public String getContents() {
@@ -60,27 +76,21 @@ public class Medecine {
         this.contents = contents;
     }
 
-
-    public int getWhentouse() {
-        return whentouse;
-    }
-
-    public void setWhentouse(int whentouse) {
-        this.whentouse = whentouse;
-    }
-
     @Override
     public String toString() {
-        return "medecine{" +
+        return "Medecine{" +
                 "key='" + key + '\'' +
                 ", owner='" + owner + '\'' +
+                ", name='" + name + '\'' +
                 ", sickness='" + sickness + '\'' +
-                ", howtouse='" + howtouse + '\'' +
+                ", use='" + use + '\'' +
+                ", symptoms='" + symptoms + '\'' +
+                ", Ingredients='" + Ingredients + '\'' +
                 ", contents='" + contents + '\'' +
-                ", whentouse=" + whentouse +
                 '}';
     }
 
-
-
 }
+
+
+
