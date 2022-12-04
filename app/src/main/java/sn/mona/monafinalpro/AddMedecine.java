@@ -54,6 +54,12 @@ public class AddMedecine extends AppCompatActivity {
                finish();
             }
         });
+        imgbtncam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser();
+            }
+        });
 
     }
 
@@ -94,46 +100,44 @@ public class AddMedecine extends AppCompatActivity {
                 }
             }
         });
-        imgbtncam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser();
-            }
 
-            private void imageChooser()
+
+
+
+
+    }
+    private void imageChooser()
+    {
+        // create an instance of the
+        // intent of the type image
+        Intent i=new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i,"select picture"),200);
+
+    }
+    // this function is triggered when user
+    // selects the image from the imageChooser
+    public void onActivityResult(int requestCode,int resultCode,Intent data)
+    {
+        AddMedecine.super.onActivityResult(requestCode,resultCode,data);
+
+        if (resultCode==RESULT_OK)
+        {
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode==200)
             {
-                // create an instance of the
-                // intent of the type image
-                Intent i=new Intent();
-                i.setType("image/*");
-                i.setAction(Intent.ACTION_GET_CONTENT);
-                // pass the constant to compare it
-                // with the returned requestCode
-               startActivityForResult(Intent.createChooser(i,"select picture"),200);
-
-            }
-            // this function is triggered when user
-            // selects the image from the imageChooser
-            public void onActivityResult(int requestCode,int resultCode,Intent data)
-            {
-                AddMedecine.super.onActivityResult(requestCode,resultCode,data);
-
-                if (resultCode==RESULT_OK)
+                // Get the url of the image from data
+                Uri selectedImageUri=data.getData();
+                if (null!=selectedImageUri)
                 {
-                    // compare the resultCode with the
-                    // SELECT_PICTURE constant
-                    if (requestCode==200)
-                    {
-                        // Get the url of the image from data
-                        Uri selectedImageUri=data.getData();
-                        if (null!=selectedImageUri)
-                        {
-                            // update the preview image in the layout
-                            imgbtncam.setImageURI(selectedImageUri);
-                        }
-                    }
+                    // update the preview image in the layout
+                    imgbtncam.setImageURI(selectedImageUri);
                 }
             }
-        });
+        }
     }
 }
