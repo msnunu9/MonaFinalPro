@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageTask;
 
 import sn.mona.monafinalpro.Data.Medecine;
 
@@ -25,6 +26,13 @@ public class AddMedecine extends AppCompatActivity {
     private ImageButton imgbtncam;
     private Button btnSave, btnCancel;
     private String imp;
+    private
+    private Uri filePath;
+    private Uri toUploadimageUri;
+    private Uri downladuri;
+    private Medecine m;
+    StorageTask uploadMedcine;
+
 
     /**
      * @param savedInstanceState
@@ -38,9 +46,11 @@ public class AddMedecine extends AppCompatActivity {
         EtSickness=findViewById(R.id.EtSickness);
         EtSymp=findViewById(R.id.EtSymp);
         EtIngre=findViewById(R.id.EtIngre);
-        imgbtncam = findViewById(R.id.imbtn);
+        imgbtncam = findViewById(R.id.imgbtncam);
         btnCancel = findViewById(R.id.btnCancelAdd);
         btnSave = findViewById(R.id.btnSaveAdd);
+        btnUpload=findViewById(R.id.btnUpload);
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
