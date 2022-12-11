@@ -11,6 +11,7 @@ public class Medecine {
     private  String symptoms;
     private  String Ingredients;
     private String contents;
+    private String image;
 
     public String getKey() {
         return key;
@@ -75,6 +76,8 @@ public class Medecine {
     public void setContents(String contents) {
         this.contents = contents;
     }
+    public String getImage(){return image;}
+    public void setImage(String image){this.image=image;}
 
     @Override
     public String toString() {
@@ -86,6 +89,7 @@ public class Medecine {
                 ", use='" + use + '\'' +
                 ", symptoms='" + symptoms + '\'' +
                 ", Ingredients='" + Ingredients + '\'' +
+                ",image='"+image+'\''+
                 ", contents='" + contents + '\'' +
                 '}';
     }
