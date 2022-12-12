@@ -278,6 +278,22 @@ public class AddMedecine extends AppCompatActivity {
             intent.setType("image/*");
             startActivityForResult(intent, IMAGE_PICK_CODE);
         }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        switch (requestCode){
+            case PERMISSION_CODE:{
+                if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    //permission was granted
+                    pickImageFromGallery();
+                }
+                else {
+                    //permission was denied
+                    Toast.makeText(this,"Permission denied...!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
 
 
     /**
@@ -336,7 +352,7 @@ public class AddMedecine extends AppCompatActivity {
     }
     // this function is triggered when user
     // selects the image from the imageChooser
-    public void onActivityResult(int requestCode,int resultCode,Intent data)
+    public void onActivityResult1(int requestCode,int resultCode,Intent data)
     {
         AddMedecine.super.onActivityResult(requestCode,resultCode,data);
 
@@ -356,4 +372,15 @@ public class AddMedecine extends AppCompatActivity {
             }
         }
     }
+    //handle result of picked images
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if (resultCode==RESULT_OK && requestCode== IMAGE_PICK_CODE){
+            //set image to image view
+            toUploadimageUri = data.getData();
+            imgbtncam.setImageURI(toUploadimageUri);
+        }
+    }
+}
 }
