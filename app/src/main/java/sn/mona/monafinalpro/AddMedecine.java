@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -66,6 +67,7 @@ public class AddMedecine extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSaveAdd);
         btnUpload=findViewById(R.id.btnUpload);
 
+
         SharedPreferences preferences=getSharedPreferences("mypref",MODE_PRIVATE);
         String key = preferences.getString("key", "");
         if(key.length()==0)
@@ -88,7 +90,7 @@ public class AddMedecine extends AppCompatActivity {
                         //permission not granted, request it.
                         String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
                         //show popup for runtime permission
-                        requestPermissions(permissions,PERMISSION_CODE;
+                        requestPermissions(permissions,PERMISSION_CODE);
                     } else {
                         //permission already granted
                         pickImageFromGallery();
@@ -120,7 +122,106 @@ public class AddMedecine extends AppCompatActivity {
         });
 
     }
-    private void uploadImage(Uri filePath) {
+    private void dataHandler() {
+        boolean isok=true;
+        String ingredients=EtIngre.getText().toString();
+        String symptoms=EtSymp.getText().toString();
+        String sickness=EtSickness.getText().toString();
+        String use=EtUse.getText().toString();
+        String name=EtName.getText().toString();
+
+//        String text=etText.getText().toString();
+//        String  date=etDueDate.getText().toString();
+        if(name.length()==0)
+        {
+            EtName.setError("name can not be empty");
+            isok=false;
+
+        }
+        if(use.length()==0)
+        {
+            EtUse.setError("name can not be empty");
+            isok=false;
+
+        }
+        if(sickness.length()==0)
+        {
+            EtSickness.setError("name can not be empty");
+            isok=false;
+
+        }
+        if(symptoms.length()==0)
+        {
+            EtSymp.setError("name can not be empty");
+            isok=false;
+
+        }
+        if(ingredients.length()==0)
+        {
+            EtIngre.setError("name can not be empty");
+            isok=false;
+
+        }
+
+
+
+//        if(text.length()==0)
+//        {
+//            etText.setError("Text can not be empty");
+//            isok=false;
+//
+//        }
+        if(isok)
+        {
+            m=new Medecine();
+            m.setName(name);
+            m.setUse(use);
+            m.setSickness(sickness);
+            m.setSymptoms(symptoms);
+            m.setIngredients(ingredients);
+            //createTask(t);
+            if(uploadMedcine!=null || (uploadMedcine!=null && uploadMedcine.isInProgress()))
+            {
+                Toast.makeText(this, " uploadTask.isInProgress(", Toast.LENGTH_SHORT).show();
+            }
+            else
+                uploadImage(toUploadimageUri);
+
+
+
+        }
+
+
+    }
+    private void createTask(Medecine m) {
+        //.1
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //.2
+        DatabaseReference reference =
+                database.getReference();
+        //to get the user uid (or other details like email)
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String uid = auth.getCurrentUser().getUid();
+        m.setOwner(uid);
+
+        String key = reference.child("tasks").push().getKey();
+        m.setKey(key);
+        reference.child("tasks").child(uid).child(key).setValue(m).
+                addOnCompleteListener(AddMedecine.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(AddMedecine.this, "add successful", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(AddMedecine.this, "add failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            task.getException().printStackTrace();
+                        }
+
+                    }
+                });
+    }
+    private void uploadImage(Uri fileP) {
 
         if(filePath != null)
         {
@@ -129,6 +230,7 @@ public class AddMedecine extends AppCompatActivity {
             progressDialog.show();
             FirebaseStorage storage= FirebaseStorage.getInstance();
             StorageReference storageReference = storage.getReference();
+            //
             final StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
             uploadMedcine=ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -140,8 +242,8 @@ public class AddMedecine extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     downladuri = task.getResult();
-                                    m.getImage(downladuri.toString());
-                                    creatTask
+                                    m.setImage(downladuri.toString());
+                                    createTask(m);
 
                                 }
                             });
@@ -170,6 +272,12 @@ public class AddMedecine extends AppCompatActivity {
             createTask(m);
         }
     }
+        private void pickImageFromGallery() {
+            //intent to pick image
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, IMAGE_PICK_CODE);
+        }
 
 
     /**
