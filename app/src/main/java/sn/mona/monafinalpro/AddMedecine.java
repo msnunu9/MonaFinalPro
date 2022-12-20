@@ -1,6 +1,5 @@
 package sn.mona.monafinalpro;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,10 +43,13 @@ public class AddMedecine extends AppCompatActivity {
     private String imp;
     private Button btnUpload;
     private Uri filePath;
+    //عنوان الصورة في الهاتف بعد اختيارها
     private Uri toUploadimageUri;
+    //عنوان الصورة في الفايربيس
     private Uri downladuri;
     private Medecine m;
-    StorageTask uploadMedcine;
+    //
+    StorageTask uploadTask;
 
 
     /**
@@ -180,7 +182,7 @@ public class AddMedecine extends AppCompatActivity {
             m.setSymptoms(symptoms);
             m.setIngredients(ingredients);
             //createTask(t);
-            if(uploadMedcine!=null || (uploadMedcine!=null && uploadMedcine.isInProgress()))
+            if(uploadTask !=null || (uploadTask !=null && uploadTask.isInProgress()))
             {
                 Toast.makeText(this, " uploadTask.isInProgress(", Toast.LENGTH_SHORT).show();
             }
@@ -192,6 +194,21 @@ public class AddMedecine extends AppCompatActivity {
         }
 
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //permission was granted
+                    pickImageFromGallery();
+                } else {
+                    //permission was denied
+                    Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
     private void createTask(Medecine m) {
         //.1
@@ -232,7 +249,7 @@ public class AddMedecine extends AppCompatActivity {
             StorageReference storageReference = storage.getReference();
             //
             final StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-            uploadMedcine=ref.putFile(filePath)
+            uploadTask =ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
                         @Override
@@ -278,21 +295,7 @@ public class AddMedecine extends AppCompatActivity {
             intent.setType("image/*");
             startActivityForResult(intent, IMAGE_PICK_CODE);
         }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-        switch (requestCode){
-            case PERMISSION_CODE:{
-                if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    //permission was granted
-                    pickImageFromGallery();
-                }
-                else {
-                    //permission was denied
-                    Toast.makeText(this,"Permission denied...!",Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
+
 
 
 
@@ -382,5 +385,4 @@ public class AddMedecine extends AppCompatActivity {
             imgbtncam.setImageURI(toUploadimageUri);
         }
     }
-}
 }
