@@ -47,8 +47,9 @@ public class AddMedecine extends AppCompatActivity {
     private Uri toUploadimageUri;
     //عنوان الصورة في الفايربيس
     private Uri downladuri;
-    private Medecine m;
-    //
+    private   Medecine m = new Medecine();
+    // thread مقطع برنامج يعمل بالتوازي او بالتزامن مع التطبيق
+    //لرفع الصورة او الملف على الموقعfirebase storage
     StorageTask uploadTask;
 
 
@@ -70,17 +71,17 @@ public class AddMedecine extends AppCompatActivity {
         btnUpload=findViewById(R.id.btnUpload);
 
 
-        SharedPreferences preferences=getSharedPreferences("mypref",MODE_PRIVATE);
-        String key = preferences.getString("key", "");
-        if(key.length()==0)
-        {
-            Toast.makeText(this, "No key found", Toast.LENGTH_SHORT).show();
-
-        }
-        else
-        {
-            Toast.makeText(this, "key:"+key, Toast.LENGTH_SHORT).show();
-        }
+//        SharedPreferences preferences=getSharedPreferences("mypref",MODE_PRIVATE);
+//        String key = preferences.getString("key", "");
+//        if(key.length()==0)
+//        {
+//            Toast.makeText(this, "No key found", Toast.LENGTH_SHORT).show();
+//
+//        }
+//        else
+//        {
+//            Toast.makeText(this, "key:"+key, Toast.LENGTH_SHORT).show();
+//        }
         //upload: 4
         imgbtncam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +108,16 @@ public class AddMedecine extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkAndSave();
+                //في صورة لكن بعدني مش رافعها
+                if (toUploadimageUri!= null &&downladuri==null)
+                {
+                    uploadImage(toUploadimageUri);
+                }
+                else
+                {
+                    checkAndSave();
+                }
+
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -116,12 +126,12 @@ public class AddMedecine extends AppCompatActivity {
                finish();
             }
         });
-        imgbtncam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser();
-            }
-        });
+//        imgbtncam.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                imageChooser();
+//            }
+//        });
 
     }
     private void dataHandler() {
@@ -260,8 +270,7 @@ public class AddMedecine extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     downladuri = task.getResult();
                                     m.setImage(downladuri.toString());
-                                    createTask(m);
-
+                                    checkAndSave();
                                 }
                             });
 
@@ -310,7 +319,7 @@ public class AddMedecine extends AppCompatActivity {
         String ingredients=EtIngre.getText().toString();
 
         //بناء الكائن واعطائه قيم للصفات
-        Medecine m = new Medecine();
+
         m.setSickness(m.getSickness());
         m.setUse(m.getUse());
         m.setName(m.getName());
@@ -353,28 +362,28 @@ public class AddMedecine extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(i,"select picture"),200);
 
     }
-    // this function is triggered when user
-    // selects the image from the imageChooser
-    public void onActivityResult1(int requestCode,int resultCode,Intent data)
-    {
-        AddMedecine.super.onActivityResult(requestCode,resultCode,data);
-
-        if (resultCode==RESULT_OK)
-        {
-            // compare the resultCode with the
-            // SELECT_PICTURE constant
-            if (requestCode==200)
-            {
-                // Get the url of the image from data
-                Uri selectedImageUri=data.getData();
-                if (null!=selectedImageUri)
-                {
-                    // update the preview image in the layout
-                    imgbtncam.setImageURI(selectedImageUri);
-                }
-            }
-        }
-    }
+//    // this function is triggered when user
+//    // selects the image from the imageChooser
+//    public void onActivityResult1(int requestCode,int resultCode,Intent data)
+//    {
+//        AddMedecine.super.onActivityResult(requestCode,resultCode,data);
+//
+//        if (resultCode==RESULT_OK)
+//        {
+//            // compare the resultCode with the
+//            // SELECT_PICTURE constant
+//            if (requestCode==200)
+//            {
+//                // Get the url of the image from data
+//                Uri selectedImageUri=data.getData();
+//                if (null!=selectedImageUri)
+//                {
+//                    // update the preview image in the layout
+//                    imgbtncam.setImageURI(selectedImageUri);
+//                }
+//            }
+//        }
+//    }
     //handle result of picked images
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
