@@ -220,34 +220,34 @@ public class AddMedecine extends AppCompatActivity {
             }
         }
     }
-    private void createTask(Medecine m) {
-        //.1
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //.2
-        DatabaseReference reference =
-                database.getReference();
-        //to get the user uid (or other details like email)
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String uid = auth.getCurrentUser().getUid();
-        m.setOwner(uid);
-
-        String key = reference.child("tasks").push().getKey();
-        m.setKey(key);
-        reference.child("tasks").child(uid).child(key).setValue(m).
-                addOnCompleteListener(AddMedecine.this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(AddMedecine.this, "add successful", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(AddMedecine.this, "add failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            task.getException().printStackTrace();
-                        }
-
-                    }
-                });
-    }
+//    private void createTask(Medecine m) {
+//        //.1
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        //.2
+//        DatabaseReference reference =
+//                database.getReference();
+//        //to get the user uid (or other details like email)
+//        FirebaseAuth auth = FirebaseAuth.getInstance();
+//        String uid = auth.getCurrentUser().getUid();
+//        m.setOwner(uid);
+//
+//        String key = reference.child("tasks").push().getKey();
+//        m.setKey(key);
+//        reference.child("tasks").child(uid).child(key).setValue(m).
+//                addOnCompleteListener(AddMedecine.this, new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(AddMedecine.this, "add successful", Toast.LENGTH_SHORT).show();
+//                            finish();
+//                        } else {
+//                            Toast.makeText(AddMedecine.this, "add failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                            task.getException().printStackTrace();
+//                        }
+//
+//                    }
+//                });
+//    }
     private void uploadImage(Uri fileP) {
 
         if(filePath != null)
@@ -295,7 +295,7 @@ public class AddMedecine extends AppCompatActivity {
         }else
         {
             m.setImage("");
-            createTask(m);
+        //    createTask(m);
         }
     }
         private void pickImageFromGallery() {

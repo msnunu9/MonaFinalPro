@@ -29,6 +29,13 @@ public class SignIn extends AppCompatActivity {
         btnin=findViewById(R.id.btnin);
         Etemail=findViewById(R.id.Etemail);
         EtPass=findViewById(R.id.EtPass);
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null)
+        {
+            Intent i=new Intent(SignIn.this,MainActivity.class);
+            startActivity(i);
+            finish();
+
+        }
         btnup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
