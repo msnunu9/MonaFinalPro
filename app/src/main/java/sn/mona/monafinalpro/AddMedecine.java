@@ -109,7 +109,7 @@ public class AddMedecine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //في صورة لكن بعدني مش رافعها
-                if (toUploadimageUri!= null &&downladuri==null)
+                if (toUploadimageUri!= null && downladuri==null)
                 {
                     uploadImage(toUploadimageUri);
                 }
@@ -250,7 +250,7 @@ public class AddMedecine extends AppCompatActivity {
 //    }
     private void uploadImage(Uri fileP) {
 
-        if(filePath != null)
+        if(fileP != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
@@ -259,7 +259,7 @@ public class AddMedecine extends AppCompatActivity {
             StorageReference storageReference = storage.getReference();
             //
             final StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
-            uploadTask =ref.putFile(filePath)
+            uploadTask =ref.putFile(fileP)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
                         @Override
@@ -320,11 +320,11 @@ public class AddMedecine extends AppCompatActivity {
 
         //بناء الكائن واعطائه قيم للصفات
 
-        m.setSickness(m.getSickness());
-        m.setUse(m.getUse());
-        m.setName(m.getName());
-        m.setSymptoms(m.getSymptoms());
-        m.setIngredients(m.getIngredients());
+        m.setSickness(sickness);
+        m.setUse(use);
+        m.setName(name);
+        m.setSymptoms(symptoms);
+        m.setIngredients(ingredients);
         //استخراج الرقم المميز للمستعمل UID
         //مستخدم دخل مسبقا
         String owner = FirebaseAuth.getInstance().getCurrentUser().getUid();
