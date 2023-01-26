@@ -1,17 +1,32 @@
 package sn.mona.monafinalpro.Data;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 import sn.mona.monafinalpro.R;
 
@@ -34,16 +49,62 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         TextView tvName=vitem.findViewById(R.id.tvName);
         RatingBar rb=vitem.findViewById(R.id.rb);
         ImageButton btninfo=vitem.findViewById(R.id.btninfo);
-        CheckBox chb=vitem.findViewById(R.id.chb);
-        ImageButton imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
+        ImageButton imgbtndel=vitem.findViewById(R.id.imgbtndel);
+
+        ImageView imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
         final Medecine medecine=getItem(position);
+        downloadImageToLocalFile(medecine.getImage(),imgbtnmed);
         tvSickness.setText(medecine.getSickness());
         tvContents.setText(medecine.getContents());
         tvHowtouse.setText(medecine.getUse());
         tvSymp.setText(medecine.getSymptoms());
-        tvName.setNa
-        chb.setChecked(false);
+        tvName.setText(medecine.getName());
+
+imgbtndel.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        FirebaseDatabase.getInstance().getReference().child("medcine").child(medecine.getKey()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "Deleted successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "unsuccessfully", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            });
+        }
+    });
+
         return vitem;
     }
+    //تنزيل الصورة من الفايربيس وتعرضها على الفاينل
+    private void downloadImageToLocalFile(String fileURL, final ImageView toView) {
+        StorageReference httpsReference = FirebaseStorage.getInstance().getReferenceFromUrl(fileURL);
+        final File localFile;
+        try {
+            localFile = File.createTempFile("images", "jpg");
 
+
+            httpsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    // Local temp file has been created
+                    Toast.makeText(getContext(), "downloaded Image To Local File", Toast.LENGTH_SHORT).show();
+                    toView.setImageURI(Uri.fromFile(localFile));
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                    Toast.makeText(getContext(), "onFailure downloaded Image To Local File "+exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    exception.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
