@@ -59,12 +59,14 @@
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_menu_info_details" />
 
-        <ImageButton
+        <Button
             android:id="@+id/imgbtndel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_delete" />
+            android:text="Delete"
+            android:drawableLeft="@android:drawable/ic_menu_delete"
+            />
 
     </LinearLayout>
 </LinearLayout>
