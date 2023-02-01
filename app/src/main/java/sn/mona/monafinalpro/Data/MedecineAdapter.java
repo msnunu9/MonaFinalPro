@@ -1,5 +1,7 @@
 package sn.mona.monafinalpro.Data;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -50,7 +53,8 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         TextView tvName=vitem.findViewById(R.id.tvName);
         RatingBar rb=vitem.findViewById(R.id.rb);
         ImageButton bedit=vitem.findViewById(R.id.bedit);
-        ImageButton imgbtndel=vitem.findViewById(R.id.imgbtndel);
+
+         Button imgbtndel=vitem.findViewById(R.id.imgbtndel);
 
         ImageView imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
         final Medecine medecine=getItem(position);
@@ -83,6 +87,7 @@ bedit.setOnClickListener(new View.OnClickListener() {
     public void onClick(View view) {
         Intent i=new Intent(getContext(), AddMedecine.class);
         i.putExtra("Medicine",medecine);
+        i.setFlags(FLAG_ACTIVITY_NEW_TASK);
         getContext().startActivity(i);
     }
 });

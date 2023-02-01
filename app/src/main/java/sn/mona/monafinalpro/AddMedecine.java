@@ -143,6 +143,12 @@ public class AddMedecine extends AppCompatActivity {
             toEdit=true;
             m=(Medecine) getIntent().getExtras().get("Medicine");
             btnSave.setText("update");
+            EtName.setText(m.getName());
+            EtUse.setText(m.getUse());
+            EtSickness.setText(m.getSickness());
+            EtSymp.setText(m.getSymptoms());
+            EtIngre.setText(m.getContents());
+
         }
     }
 
