@@ -1,9 +1,11 @@
 package sn.mona.monafinalpro.Data;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public class Medecine {
+public class Medecine implements Serializable {
     private String key, owner;
     private String name;
     private String sickness;

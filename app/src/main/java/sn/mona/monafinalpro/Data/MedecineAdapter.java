@@ -1,12 +1,12 @@
 package sn.mona.monafinalpro.Data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -28,6 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 
+import sn.mona.monafinalpro.AddMedecine;
 import sn.mona.monafinalpro.R;
 
 public class MedecineAdapter extends ArrayAdapter<Medecine> {
@@ -48,7 +49,7 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         TextView tvSymp=vitem.findViewById(R.id.tvSymp);
         TextView tvName=vitem.findViewById(R.id.tvName);
         RatingBar rb=vitem.findViewById(R.id.rb);
-        ImageButton btninfo=vitem.findViewById(R.id.btninfo);
+        ImageButton bedit=vitem.findViewById(R.id.bedit);
         ImageButton imgbtndel=vitem.findViewById(R.id.imgbtndel);
 
         ImageView imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
@@ -77,6 +78,14 @@ imgbtndel.setOnClickListener(new View.OnClickListener() {
             });
         }
     });
+bedit.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent i=new Intent(getContext(), AddMedecine.class);
+        i.putExtra("Medicine",medecine);
+        getContext().startActivity(i);
+    }
+});
 
         return vitem;
     }

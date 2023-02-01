@@ -40,6 +40,7 @@ public class AddMedecine extends AppCompatActivity {
     private TextInputEditText EtName, EtUse,EtSickness,EtSymp,EtIngre;
     private ImageButton imgbtncam;
     private Button btnSave, btnCancel;
+    private Boolean toEdit=false;
     private String imp;
     private Button btnUpload;
     private Uri filePath;
@@ -134,6 +135,17 @@ public class AddMedecine extends AppCompatActivity {
 //        });
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(getIntent()!=null && getIntent().hasExtra("Medicine")){
+            toEdit=true;
+            m=(Medecine) getIntent().getExtras().get("Medicine");
+            btnSave.setText("update");
+        }
+    }
+
     private void dataHandler() {
         boolean isok=true;
         String ingredients=EtIngre.getText().toString();
@@ -330,10 +342,14 @@ public class AddMedecine extends AppCompatActivity {
         String owner = FirebaseAuth.getInstance().getCurrentUser().getUid();
         m.setOwner(owner);
         //استخراج الرقم المميز للمهمة
-        String key = FirebaseDatabase.getInstance().getReference().child("medcine").push().getKey();
-        m.setKey(key);
+        String Key=m.getKey();
+        if (toEdit==false){
+           Key = FirebaseDatabase.getInstance().getReference().child("medcine").push().getKey();
+        }
 
-        FirebaseDatabase.getInstance().getReference().child("medcine").child(key).setValue(m).addOnCompleteListener(new OnCompleteListener<Void>() {
+        m.setKey(Key);
+
+        FirebaseDatabase.getInstance().getReference().child("medcine").child(Key).setValue(m).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
