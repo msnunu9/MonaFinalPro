@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imgbtn;
     private ListView dyn;
     private Button ntnCancel;
+    private SearchView searchView;
     //تعريف الوسيط
     MedecineAdapter medcineAdapter;
 
@@ -47,7 +49,27 @@ public class MainActivity extends AppCompatActivity {
         //        ويقوم بتنظيف المعطيات الموجه(حذفها)وتنزيل المعلومات الجديدة
         readMedcineFromFireBase();
 
+        searchView=findViewById(R.id.search);
+        searchView.setActivated(true);
+        searchView.setQueryHint("Type your keyword here");
+        searchView.onActionViewExpanded();
+        searchView.setIconified(false);
+        searchView.clearFocus();
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                medcineAdapter.getFilter().filter(newText);
+
+                return false;
+            }
+        });
         imgbtn = findViewById(R.id.imgbtn);
         ntnCancel = findViewById(R.id.btnSaveAdd);
 
@@ -77,8 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 medcineAdapter.clear();
                 for (DataSnapshot d : snapshot.getChildren())//يمر على جميع قيم مبنى المعطيات  d
                 {
+
                     Medecine m = d.getValue(Medecine.class);//استخراج الكائن المحفوظ
-                    medcineAdapter.add(m);//اضافة الكائن للوسيط
+                   // if(m.getSymptoms().contains(toSearch))
+                       medcineAdapter.add(m);//اضافة الكائن للوسيط
                 }
             }
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -23,18 +24,29 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import sn.mona.monafinalpro.AddMedecine;
 import sn.mona.monafinalpro.R;
 
 public class MedecineAdapter extends ArrayAdapter<Medecine> {
+    //search 5:
+    private ValueFilter valueFilter;
+    List<String> mData;
+    List<String> mStringFilterList;
+
     //تخزين المهام بمبنى معطيات مصفوفة
     public MedecineAdapter(@NonNull Context context) {
         super(context, R.layout.medecine_item);
@@ -119,6 +131,83 @@ bedit.setOnClickListener(new View.OnClickListener() {
             });
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    //search 1:
+
+    @NonNull
+    @Override
+    public Filter getFilter() {
+        //search 4:
+        if (valueFilter == null) {
+            valueFilter = new ValueFilter();
+        }
+        return valueFilter;
+
+    }
+    //search 2:                    ///abstract class
+    private class ValueFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence toSearch) {
+            FilterResults results = new FilterResults();
+            List<String> all = new ArrayList<>();
+            if (toSearch != null && toSearch.length() > 0) {
+                List<String> filterList = new ArrayList<>();
+                //لكي يبين كل الي بالليست عندما لا يوجد بحث
+
+                //search 3:
+                //استخراج الرقم المميز للمهمة
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("medcine");//listener لمراقبة اي تغيير يحدث تحت الجذر المحدد
+                // اي تغيير بقيمة صفة او حذف او اضافة كائن يتم اعلام ال listener
+                // عندما يتم تنزيل كل المعطيات الموجودة تحت الجذر
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        clear();
+                        for (DataSnapshot d : snapshot.getChildren())//يمر على جميع قيم مبنى المعطيات  d
+                        {
+                            String[] s = toSearch.toString().split(" ");//قسم جملة البحث لكلمات
+                            Medecine m = d.getValue(Medecine.class);//استخراج الكائن المحفوظ
+                            // if(m.getSymptoms().contains(toSearch))
+                            int count=0;
+                            for (int i = 0; i < s.length ; i++) {
+                                    if (m.getSymptoms().toLowerCase().contains(s[i].toLowerCase()))
+                                        count++;
+                            }
+                            if (count>0) {
+                                add(m);//اضافة الكائن للوسيط
+                                filterList.add(m.getSymptoms());
+                            }
+                            else
+                            {
+                                all.add(m.getSymptoms());
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                results.count = filterList.size();
+                results.values = filterList;
+            } else {
+                results.count = all.size();
+                results.values = all;
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            //search 6:
+            mData = (List<String>) filterResults.values;
+            notifyDataSetChanged();
         }
     }
 }
