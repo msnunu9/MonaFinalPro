@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,8 +69,15 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
 
          Button imgbtndel=vitem.findViewById(R.id.imgbtndel);
 
+
         ImageView imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
         final Medecine medecine=getItem(position);
+        //edit and delete فقط لصاحب المعطيات
+        if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(medecine.getOwner())==false)
+        {
+            bedit.setVisibility(View.GONE);
+            imgbtndel.setVisibility(View.GONE);
+        }
         downloadImageToLocalFile(medecine.getImage(),imgbtnmed);
         tvSickness.setText(medecine.getSickness());
         tvContents.setText(medecine.getContents());

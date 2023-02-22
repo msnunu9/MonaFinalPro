@@ -27,7 +27,7 @@ import sn.mona.monafinalpro.Data.Medecine;
 import sn.mona.monafinalpro.Data.MedecineAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    private ImageButton imgbtn;
+    private ImageButton imgbtn;//
     private ListView dyn;
     private Button ntnCancel;
     private SearchView searchView;
