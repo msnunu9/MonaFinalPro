@@ -16,8 +16,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
     //1.تعريف الصفات
-    private TextInputEditText etemail,etpaasword,etconfirm;
-    private Button btnSave,btncancel;
+    private TextInputEditText etemail;// حقل ادخال الايميل
+    private TextInputEditText etpaasword;// حقل ادخال كلمة السر
+    private TextInputEditText etconfirm;//حقل ادخال لتاكيد كلمة السر
+    private Button btnSave;//زر لخزن المعطيات
+    private Button  btncancel;// زر لالغاء
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

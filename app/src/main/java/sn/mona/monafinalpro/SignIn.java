@@ -17,9 +17,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignIn extends AppCompatActivity {
 
-    private Button btnup;
-    private Button btnin;
-    TextInputEditText EtPass,Etemail;
+    private Button btnup;// زر للدخول للتطبيق
+    private Button btnin;// زر للتسجيل
+    TextInputEditText EtPass;// حقل ادخال كلمة السر
+    TextInputEditText Etemail;//حقل ادخال الايميل
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
