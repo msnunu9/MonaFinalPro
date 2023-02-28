@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sn.mona.monafinalpro.AddMedecine;
+import sn.mona.monafinalpro.MainActivity;
+import sn.mona.monafinalpro.MineActivity;
 import sn.mona.monafinalpro.R;
 
 public class MedecineAdapter extends ArrayAdapter<Medecine> {
@@ -47,6 +50,7 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
     private ValueFilter valueFilter;
     List<String> mData;
     List<String> mStringFilterList;
+
 
     //تخزين المهام بمبنى معطيات مصفوفة
     public MedecineAdapter(@NonNull Context context) {
@@ -153,6 +157,11 @@ bedit.setOnClickListener(new View.OnClickListener() {
         return valueFilter;
 
     }
+
+    public void setChoises(CheckBox chName, CheckBox chUse, CheckBox chIng, CheckBox chSickness, CheckBox chSymp)
+    {
+    }
+
     //search 2:                    ///abstract class
     private class ValueFilter extends Filter {
 
@@ -180,12 +189,37 @@ bedit.setOnClickListener(new View.OnClickListener() {
                             // if(m.getSymptoms().contains(toSearch))
                             int count=0;
                             for (int i = 0; i < s.length ; i++) {
-                                    if (m.getSymptoms().toLowerCase().contains(s[i].toLowerCase()))
+                                MainActivity mainActivity = (MainActivity) getContext();
+
+                                //طريقة البحث عن طريق تشيك بوكس
+                                if (mainActivity.getChSymp().isChecked() && m.getSymptoms().toLowerCase().contains(s[i].toLowerCase())) {
+                                    count++;
+                                    filterList.add(m.getSymptoms());
+                                }
+                                if (mainActivity.getChName().isChecked() && m.getName().toLowerCase().contains(s[i].toLowerCase())) {
+                                    count++;
+                                    filterList.add(m.getName());
+                                }
+                                if (mainActivity.getChSickness().isChecked() && m.getSickness().toLowerCase().contains(s[i].toLowerCase())) {
+                                    count++;
+                                    filterList.add(m.getSickness());
+                                }
+                                if (mainActivity.getChIng().isChecked() && m.getIngredients().toLowerCase().contains(s[i].toLowerCase())) {
+                                    {
                                         count++;
+                                        filterList.add(m.getIngredients());
+                                    }
+                                }
+                                if (mainActivity.getChUse().isChecked() && m.getUse().toLowerCase().contains(s[i].toLowerCase()))
+                                {
+                                    count++;
+                                    filterList.add(m.getUse());
+                                }
                             }
+
                             if (count>0) {
                                 add(m);//اضافة الكائن للوسيط
-                                filterList.add(m.getSymptoms());
+                              //  filterList.add(m.getSymptoms());
                             }
                             else
                             {

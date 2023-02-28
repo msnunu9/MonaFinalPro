@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -31,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private ListView dyn;
     private Button ntnCancel;
     private SearchView searchView;
+    private CheckBox chIng;
+    private CheckBox chSymp;
+    private CheckBox chSickness;
+    private CheckBox chUse;
+    private CheckBox chName;
     //تعريف الوسيط
     MedecineAdapter medcineAdapter;
 
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //3.2 بناء الوسيط
-        medcineAdapter = new MedecineAdapter(getApplicationContext());
+        medcineAdapter = new MedecineAdapter(this);
         //تجهيز مؤشر لقائمة العرض
         dyn = findViewById(R.id.dyn);
         //3.3 ربط قائمة العرض بالوسيط
@@ -55,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
         searchView.onActionViewExpanded();
         searchView.setIconified(false);
         searchView.clearFocus();
+        chIng=findViewById(R.id.chIng);
+        chSymp=findViewById(R.id.chSymp);
+        chSickness=findViewById(R.id.chSickness);
+        chUse=findViewById(R.id.chUse);
+        chName=findViewById(R.id.chName);
+
+        medcineAdapter.setChoises(chName,chUse,chIng,chSickness,chSymp);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -82,6 +95,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public CheckBox getChIng() {
+        return chIng;
+    }
+
+    public CheckBox getChSymp() {
+        return chSymp;
+    }
+
+    public CheckBox getChSickness() {
+        return chSickness;
+    }
+
+    public CheckBox getChUse() {
+        return chUse;
+    }
+
+    public CheckBox getChName() {
+        return chName;
     }
 
     private void readMedcineFromFireBase() {
