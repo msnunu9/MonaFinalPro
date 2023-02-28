@@ -17,4 +17,9 @@
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="Item"
         app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/itmine"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Item"
+        app:showAsAction="always" />
 </menu>

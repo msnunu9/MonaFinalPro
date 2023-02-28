@@ -1,9 +1,5 @@
 package sn.mona.monafinalpro;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +12,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import sn.mona.monafinalpro.Data.Medecine;
 import sn.mona.monafinalpro.Data.MedecineAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MineActivity extends AppCompatActivity {
     private ImageButton imgbtn;//
     private ListView dyn;
     private Button ntnCancel;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, AddMedecine.class);
+                Intent i = new Intent(MineActivity.this, AddMedecine.class);
                 startActivity(i);
             }
         });
@@ -99,8 +99,13 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot d : snapshot.getChildren())//يمر على جميع قيم مبنى المعطيات  d
                 {
 
+
                     Medecine m = d.getValue(Medecine.class);//استخراج الكائن المحفوظ
+
                    // if(m.getSymptoms().contains(toSearch))
+                    //todo fix it using firebase query
+                    //فحص لكي يبين المنشورات الخاصة لي اي التي انا كتبتها فهو يقوم بفحص المستخدم
+                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(m.getOwner()))
                        medcineAdapter.add(m);//اضافة الكائن للوسيط
                 }
             }
@@ -134,11 +139,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.itmSetings) {
-            Intent i = new Intent(MainActivity.this, Settings.class);
-            startActivity(i);
-        }
-        if (item.getItemId() == R.id.itmine) {
-            Intent i = new Intent(MainActivity.this, MineActivity.class);
+            Intent i = new Intent(MineActivity.this, Settings.class);
             startActivity(i);
         }
         if (item.getItemId() == R.id.itmSignOut) {

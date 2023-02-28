@@ -28,6 +28,9 @@
             android:name=".SignIn"
             android:exported="false" />
         <activity
+            android:name=".MineActivity"
+            android:exported="false"/>
+        <activity
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
