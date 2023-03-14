@@ -186,12 +186,13 @@ bedit.setOnClickListener(new View.OnClickListener() {
                         {
                             String[] s = toSearch.toString().split(" ");//قسم جملة البحث لكلمات
                             Medecine m = d.getValue(Medecine.class);//استخراج الكائن المحفوظ
+                            //*********
                             // if(m.getSymptoms().contains(toSearch))
                             int count=0;
                             for (int i = 0; i < s.length ; i++) {
                                 MainActivity mainActivity = (MainActivity) getContext();
 
-                                //طريقة البحث عن طريق تشيك بوكس
+                                 //طريقة البحث عن طريق تشيك بوكس
                                 if (mainActivity.getChSymp().isChecked() && m.getSymptoms().toLowerCase().contains(s[i].toLowerCase())) {
                                     count++;
                                     filterList.add(m.getSymptoms());

@@ -14,6 +14,7 @@ public class Medecine implements Serializable {
     private  String Ingredients;
     private String contents;
     private String image;
+    private String video;
 
     public String getKey() {
         return key;
@@ -75,6 +76,14 @@ public class Medecine implements Serializable {
         return contents;
     }
 
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
     public void setContents(String contents) {
         this.contents = contents;
     }
@@ -93,6 +102,7 @@ public class Medecine implements Serializable {
                 ", Ingredients='" + Ingredients + '\'' +
                 ",image='"+image+'\''+
                 ", contents='" + contents + '\'' +
+                ",video='"+video+'\''+
                 '}';
     }
 

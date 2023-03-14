@@ -37,6 +37,7 @@ import sn.mona.monafinalpro.Data.Medecine;
 public class AddMedecine extends AppCompatActivity {
     private static final int IMAGE_PICK_CODE = 100;
     private static final int PERMISSION_CODE = 101;
+    private static final int VIDEO_PICK_CODE = 102;
     private TextInputEditText EtName, EtUse,EtSickness,EtSymp,EtIngre;
     private ImageButton imgbtncam;
     private Button btnSave, btnCancel;
@@ -46,7 +47,9 @@ public class AddMedecine extends AppCompatActivity {
     private Uri filePath;
     //عنوان الصورة في الهاتف بعد اختيارها
     private Uri toUploadimageUri;
+    private Uri toUploadvideoUri;
     //عنوان الصورة في الفايربيس
+    private Uri downladuri;
     private Uri downladuri;
     private   Medecine m = new Medecine();
     // thread مقطع برنامج يعمل بالتوازي او بالتزامن مع التطبيق
@@ -69,7 +72,7 @@ public class AddMedecine extends AppCompatActivity {
         imgbtncam = findViewById(R.id.imgbtncam);
         btnCancel = findViewById(R.id.btnCancelAdd);
         btnSave = findViewById(R.id.btnSaveAdd);
-        btnUpload=findViewById(R.id.btnUpload);
+
 
 
 //        SharedPreferences preferences=getSharedPreferences("mypref",MODE_PRIVATE);
@@ -322,6 +325,62 @@ public class AddMedecine extends AppCompatActivity {
             intent.setType("image/*");
             startActivityForResult(intent, IMAGE_PICK_CODE);
         }
+        private void pickVideoFromGallery() {
+        //intent to pick image
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("video/*");
+        startActivityForResult(intent, VIDEO_PICK_CODE);
+    }
+    private void uploadVideo(Uri fileP) {
+
+        if(fileP != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            FirebaseStorage storage= FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference();
+            //
+            final StorageReference ref = storageReference.child("videos/"+ UUID.randomUUID().toString());
+            uploadTask =ref.putFile(fileP)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    downladuri = task.getResult();
+                                    m.setVideo(downladuri.toString());
+                                    checkAndSave();
+                                }
+                            });
+
+                            Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }else
+        {
+            m.setVideo("");
+            //    createTask(m);
+        }
+    }
 
 
 
@@ -414,6 +473,12 @@ public class AddMedecine extends AppCompatActivity {
             //set image to image view
             toUploadimageUri = data.getData();
             imgbtncam.setImageURI(toUploadimageUri);
+        }
+        if (resultCode==RESULT_OK && requestCode== VIDEO_PICK_CODE){
+            //set image to image view
+            toUploadvideoUri = data.getData();
+            imgbtncam.setImageURI(toUploadvideoUri
+            );
         }
     }
 }
