@@ -8,12 +8,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,13 +37,14 @@ import com.google.firebase.storage.UploadTask;
 import java.util.UUID;
 
 import sn.mona.monafinalpro.Data.Medecine;
+import android.provider.MediaStore.Video.Thumbnails;
 
 public class AddMedecine extends AppCompatActivity {
     private static final int IMAGE_PICK_CODE = 100;
     private static final int PERMISSION_CODE = 101;
     private static final int VIDEO_PICK_CODE = 102;
     private TextInputEditText EtName, EtUse,EtSickness,EtSymp,EtIngre;
-    private ImageButton imgbtncam;
+    private ImageView imgbtncam,imgVideo;
     private Button btnSave, btnCancel;
     private Boolean toEdit=false;
     private String imp;
@@ -50,7 +55,7 @@ public class AddMedecine extends AppCompatActivity {
     private Uri toUploadvideoUri;
     //عنوان الصورة في الفايربيس
     private Uri downladuri;
-    private Uri downladuri;
+    private Uri downladurivid;
     private   Medecine m = new Medecine();
     // thread مقطع برنامج يعمل بالتوازي او بالتزامن مع التطبيق
     //لرفع الصورة او الملف على الموقعfirebase storage
@@ -70,6 +75,7 @@ public class AddMedecine extends AppCompatActivity {
         EtSymp=findViewById(R.id.EtSymp);
         EtIngre=findViewById(R.id.EtIngre);
         imgbtncam = findViewById(R.id.imgbtncam);
+        imgVideo=findViewById(R.id.imgVideo);
         btnCancel = findViewById(R.id.btnCancelAdd);
         btnSave = findViewById(R.id.btnSaveAdd);
 
@@ -107,6 +113,26 @@ public class AddMedecine extends AppCompatActivity {
 
             }
         });
+        imgVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //check runtime permission
+                Toast.makeText(getApplicationContext(), "video", Toast.LENGTH_SHORT).show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        //permission not granted, request it.
+                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        //show popup for runtime permission
+                        requestPermissions(permissions,PERMISSION_CODE);
+                    } else {
+                        //permission already granted
+                        pickVideoFromGallery();
+                    }
+
+                }
+
+            }
+        });
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +142,11 @@ public class AddMedecine extends AppCompatActivity {
                 if (toUploadimageUri!= null && downladuri==null)
                 {
                     uploadImage(toUploadimageUri);
+                }
+                else
+                if (toUploadvideoUri!= null && downladurivid==null)
+                {
+                    uploadVideo(toUploadvideoUri);
                 }
                 else
                 {
@@ -291,6 +322,10 @@ public class AddMedecine extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     downladuri = task.getResult();
                                     m.setImage(downladuri.toString());
+                                    if (toUploadvideoUri!= null && downladurivid==null)
+                                    {
+                                        uploadVideo(toUploadvideoUri);
+                                    }else
                                     checkAndSave();
                                 }
                             });
@@ -351,8 +386,8 @@ public class AddMedecine extends AppCompatActivity {
                             ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
-                                    downladuri = task.getResult();
-                                    m.setVideo(downladuri.toString());
+                                    downladurivid = task.getResult();
+                                    m.setVideo(downladurivid.toString());
                                     checkAndSave();
                                 }
                             });
@@ -477,8 +512,22 @@ public class AddMedecine extends AppCompatActivity {
         if (resultCode==RESULT_OK && requestCode== VIDEO_PICK_CODE){
             //set image to image view
             toUploadvideoUri = data.getData();
-            imgbtncam.setImageURI(toUploadvideoUri
-            );
+
+
+
+            Bitmap bmThumbnail;
+            MediaMetadataRetriever mMMR = new MediaMetadataRetriever();
+            mMMR.setDataSource(getApplicationContext(), toUploadvideoUri);
+            bmThumbnail = mMMR.getFrameAtTime();
+//MICRO_KIND, size: 96 x 96 thumbnail
+            //bmThumbnail = ThumbnailUtils.createVideoThumbnail(toUploadvideoUri.getPath(), Thumbnails.MICRO_KIND);
+            imgVideo.setImageBitmap(bmThumbnail);
+
+//// MINI_KIND, size: 512 x 384 thumbnail
+//            bmThumbnail = ThumbnailUtils.createVideoThumbnail(filePath, Thumbnails.MINI_KIND);
+//            imgVideo.setImageBitmap(bmThumbnail);
+//            imgbtncam.setImageURI(toUploadvideoUri);
         }
     }
+
 }

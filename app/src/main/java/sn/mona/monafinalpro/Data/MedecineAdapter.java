@@ -71,6 +71,7 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         RatingBar rb=vitem.findViewById(R.id.rb);
         ImageButton bedit=vitem.findViewById(R.id.bedit);
 
+
          Button imgbtndel=vitem.findViewById(R.id.imgbtndel);
 
 
