@@ -46,10 +46,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <VideoView
+        <ImageView
             android:id="@+id/vifbtnmed"
             android:layout_width="200dp"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            app:srcCompat="@android:drawable/presence_video_online"
+           />
 
         <ImageView
             android:id="@+id/imgbtnmed"

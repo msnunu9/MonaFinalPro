@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="sn.mona.monafinalpro">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -16,6 +17,13 @@
         android:theme="@style/Theme.MonaFinalPro"
         tools:targetApi="31">
         <activity
+            android:name=".VideoPlayer"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AddMedecine"
             android:exported="false" />
         <activity
@@ -29,7 +37,7 @@
             android:exported="false" />
         <activity
             android:name=".MineActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SplashScreen"
             android:exported="true">

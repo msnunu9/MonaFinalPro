@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,9 @@ import sn.mona.monafinalpro.AddMedecine;
 import sn.mona.monafinalpro.MainActivity;
 import sn.mona.monafinalpro.MineActivity;
 import sn.mona.monafinalpro.R;
+import sn.mona.monafinalpro.SignIn;
+import sn.mona.monafinalpro.SignUp;
+import sn.mona.monafinalpro.VideoPlayer;
 
 public class MedecineAdapter extends ArrayAdapter<Medecine> {
     //search 5:
@@ -70,7 +74,19 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         TextView tvName=vitem.findViewById(R.id.tvName);
         RatingBar rb=vitem.findViewById(R.id.rb);
         ImageButton bedit=vitem.findViewById(R.id.bedit);
+        //كباس الفيديو
+        ImageView vifbtnmed=vitem.findViewById(R.id.vifbtnmed);
 
+        //للانتقال من الادابتير لفيديو بلاير
+        vifbtnmed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getContext(), VideoPlayer.class);
+                //to set uru
+                getContext().startActivity(i);
+
+            }
+        });
 
          Button imgbtndel=vitem.findViewById(R.id.imgbtndel);
 
@@ -89,6 +105,8 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         tvHowtouse.setText(medecine.getUse());
         tvSymp.setText(medecine.getSymptoms());
         tvName.setText(medecine.getName());
+
+
 
 imgbtndel.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -146,6 +164,33 @@ bedit.setOnClickListener(new View.OnClickListener() {
             e.printStackTrace();
         }
     }
+//    //تنزيل الصورة من الفايربيس وتعرضها على الفاينل
+//    private void downloadVideoToLocalFile(String fileURL, final ImageView toView) {
+//        StorageReference httpsReference = FirebaseStorage.getInstance().getReferenceFromUrl(fileURL);
+//        final File localFile;
+//        try {
+//            localFile = File.createTempFile("images", "jpg");
+//
+//
+//            httpsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                    // Local temp file has been created
+//                    Toast.makeText(getContext(), "downloaded Image To Local File", Toast.LENGTH_SHORT).show();
+//                    toView.setImageURI(Uri.fromFile(localFile));
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//                    // Handle any errors
+//                    Toast.makeText(getContext(), "onFailure downloaded Image To Local File "+exception.getMessage(), Toast.LENGTH_SHORT).show();
+//                    exception.printStackTrace();
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     //search 1:
 
     @NonNull
