@@ -14,6 +14,9 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.util.ArrayList;
+
+import sn.mona.monafinalpro.Data.Medecine;
+
 //بناء شاشة لعرض الفيديو
 public class VideoPlayer
         extends AppCompatActivity
@@ -31,7 +34,12 @@ public class VideoPlayer
         vw.setMediaController(new MediaController(this));
         vw.setOnCompletionListener(this);
 
-        // video name should be in lower case alphabet.
+        if (getIntent()!=null&&getIntent().hasExtra("med"))
+        {
+            Medecine m= (Medecine) getIntent().getExtras().get("med");
+            setVideo(Uri.parse(m.getVideo()));
+        }
+
 
        // setVideo();
     }

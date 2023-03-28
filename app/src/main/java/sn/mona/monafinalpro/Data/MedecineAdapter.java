@@ -77,22 +77,35 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         //كباس الفيديو
         ImageView vifbtnmed=vitem.findViewById(R.id.vifbtnmed);
 
-        //للانتقال من الادابتير لفيديو بلاير
-        vifbtnmed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i=new Intent(getContext(), VideoPlayer.class);
-                //to set uru
-                getContext().startActivity(i);
 
-            }
-        });
 
          Button imgbtndel=vitem.findViewById(R.id.imgbtndel);
 
 
         ImageView imgbtnmed=vitem.findViewById(R.id.imgbtnmed);
+
+
         final Medecine medecine=getItem(position);
+
+
+        //للانتقال من الادابتير لفيديو بلاير
+        vifbtnmed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (medecine.getVideo()==null|| medecine.getVideo().length()==0)
+                {
+                    Toast.makeText(getContext(), "there is no video", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    //نقل معلومة من الادابتير الى فيديو بلاير وهي الكائن
+                    Intent i = new Intent(getContext(), VideoPlayer.class);
+                    //to set uru
+                    i.putExtra("med", medecine);
+                    getContext().startActivity(i);
+                }
+
+            }
+        });
         //edit and delete فقط لصاحب المعطيات
         if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(medecine.getOwner())==false)
         {
