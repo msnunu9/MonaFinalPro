@@ -22,6 +22,8 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.fido.fido2.api.common.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -153,10 +155,10 @@ bedit.setOnClickListener(new View.OnClickListener() {
     }
 
     private void downloadvideothumbnail(String video, ImageView vifbtnmed) {
-//        long interval = getPosition()*1000;
-//        RequestOptions options = new RequestOptions().frame(interval);
-//
-//        Glide.with(context).asBitmap().load(baseuri).apply(options).into(imgView);
+        long interval = getPosition()*1000;
+        RequestOptions options = new RequestOptions().frame(interval);
+
+        Glide.with(getContext()).asBitmap().load(Uri.parse(video)).apply(options).into(vifbtnmed);
     }
 
     //تنزيل الصورة من الفايربيس وتعرضها على الفاينل
