@@ -113,6 +113,7 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
             imgbtndel.setVisibility(View.GONE);
         }
         downloadImageToLocalFile(medecine.getImage(),imgbtnmed);
+        downloadvideothumbnail(medecine.getVideo(),vifbtnmed);
         tvSickness.setText(medecine.getSickness());
         tvContents.setText(medecine.getContents());
         tvHowtouse.setText(medecine.getUse());
@@ -150,6 +151,14 @@ bedit.setOnClickListener(new View.OnClickListener() {
 
         return vitem;
     }
+
+    private void downloadvideothumbnail(String video, ImageView vifbtnmed) {
+//        long interval = getPosition()*1000;
+//        RequestOptions options = new RequestOptions().frame(interval);
+//
+//        Glide.with(context).asBitmap().load(baseuri).apply(options).into(imgView);
+    }
+
     //تنزيل الصورة من الفايربيس وتعرضها على الفاينل
     private void downloadImageToLocalFile(String fileURL, final ImageView toView) {
         StorageReference httpsReference = FirebaseStorage.getInstance().getReferenceFromUrl(fileURL);
