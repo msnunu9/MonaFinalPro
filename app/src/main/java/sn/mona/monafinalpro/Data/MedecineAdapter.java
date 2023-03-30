@@ -116,6 +116,7 @@ public class MedecineAdapter extends ArrayAdapter<Medecine> {
         }
         downloadImageToLocalFile(medecine.getImage(),imgbtnmed);
         downloadvideothumbnail(medecine.getVideo(),vifbtnmed);
+        downloadimagethumbnail(medecine.getImage(),imgbtnmed);
         tvSickness.setText(medecine.getSickness());
         tvContents.setText(medecine.getContents());
         tvHowtouse.setText(medecine.getUse());
@@ -154,11 +155,31 @@ bedit.setOnClickListener(new View.OnClickListener() {
         return vitem;
     }
 
-    private void downloadvideothumbnail(String video, ImageView vifbtnmed) {
-        long interval = getPosition()*1000;
-        RequestOptions options = new RequestOptions().frame(interval);
+    private void downloadimagethumbnail(String image, ImageView imgbtnmed) {
+        //  long interval = getPosition()*1000;
+        //RequestOptions options = new RequestOptions().frame(interval);
+        if (image==null||image.length()==0)
+        {
+            return;
+        }
+        Glide.with(getContext()).asBitmap()
+                .load(Uri.parse(image))
+                //.apply(options)
+                .into(imgbtnmed);
 
-        Glide.with(getContext()).asBitmap().load(Uri.parse(video)).apply(options).into(vifbtnmed);
+    }
+
+    private void downloadvideothumbnail(String video, ImageView vifbtnmed) {
+      //  long interval = getPosition()*1000;
+        //RequestOptions options = new RequestOptions().frame(interval);
+  if (video==null||video.length()==0)
+{
+    return;
+}
+        Glide.with(getContext()).asBitmap()
+                .load(Uri.parse(video))
+                //.apply(options)
+                .into(vifbtnmed);
     }
 
     //تنزيل الصورة من الفايربيس وتعرضها على الفاينل
